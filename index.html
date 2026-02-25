@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App do Estresse</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-color: #ffffff;
+            --accent-color: #ff4757;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 { margin-bottom: 1.5rem; color: var(--accent-color); }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #444;
+            color: white;
+            margin-bottom: 1rem;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .termometro {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-nivel {
+            padding: 10px 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            flex: 1;
+            margin: 0 5px;
+            color: #000;
+        }
+
+        .baixo { background-color: #2ecc71; }
+        .medio { background-color: #f1c40f; }
+        .alto { background-color: #e67e22; }
+        .aaaa { background-color: #e74c3c; animation: pulse 1s infinite; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-nivel:hover { opacity: 0.8; transform: translateY(-2px); }
+        .active { outline: 3px solid white; transform: translateY(-2px); }
+
+        #display-mantra {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-height: 80px;
+            margin: 20px 0;
+            color: #fffa65;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #timer {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-family: monospace;
+        }
+
+        .hidden { display: none; }
+
+        #btn-cancelar {
+            background: none;
+            border: 1px solid #666;
+            color: #aaa;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="setup-screen">
+        <h1>App do Estresse 🤬</h1>
+        <p>O que aconteceu?</p>
+        <textarea id="motivo" rows="3" placeholder="Ex: O chefe me cobrou no domingo..."></textarea>
+        
+        <p>Qual o nível da raiva?</p>
+        <div class="termometro">
+            <button class="btn-nivel baixo" onclick="setNivel('baixo', 10, this)">Baixo</button>
+            <button class="btn-nivel medio" onclick="setNivel('medio', 20, this)">Médio</button>
+            <button class="btn-nivel alto" onclick="setNivel('alto', 30, this)">Alto</button>
+            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">AAAHHHH</button>
+        </div>
+
+        <button id="start-btn" style="width: 100%; padding: 15px; border-radius: 8px; border: none; background: var(--accent-color); color: white; font-weight: bold; cursor: pointer;" onclick="iniciarSessao()">SOLTAR O VERBO</button>
+    </div>
+
+    <div class="container hidden" id="timer-screen">
+        <h2 id="status-title">REPITAM COMIGO:</h2>
+        <div id="display-mantra"></div>
+        <div id="timer">00</div>
+        <button id="btn-cancelar" onclick="resetar()">Desisti, me acalmei</button>
+    </div>
+
+    <script>
+        let tempoSelecionado = 0;
+        let countdown;
+        const frases = ["VÁ PRA PUTA QUE PARIU!", "VÁ TOMAR NO CU!"];
+
+        function setNivel(nome, tempo, element) {
+            tempoSelecionado = tempo;
+            document.querySelectorAll('.btn-nivel').forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function iniciarSessao() {
+            if (tempoSelecionado === 0) {
+                alert("Selecione um nível no termômetro primeiro!");
+                return;
+            }
+
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('timer-screen').classList.remove('hidden');
+            
+            let tempoRestante = tempoSelecionado;
+            const displayTimer = document.getElementById('timer');
+            const displayMantra = document.getElementById('display-mantra');
+            
+            // Sorteia a frase inicial
+            displayMantra.innerText = frases[Math.floor(Math.random() * frases.length)];
+
+            countdown = setInterval(() => {
+                tempoRestante--;
+                displayTimer.innerText = tempoRestante < 10 ? `0${tempoRestante}` : tempoRestante;
+
+                // Troca a frase a cada 5 segundos para manter o ritmo
+                if (tempoRestante % 5 === 0) {
+                    displayMantra.innerText = frases[Math.floor(Math.random() * frases.length)];
+                }
+
+                if (tempoRestante <= 0) {
+                    clearInterval(countdown);
+                    finalizar();
+                }
+            }, 1000);
+        }
+
+        function finalizar() {
+            alert("Sessão encerrada. Esperamos que o fígado esteja mais leve!");
+            resetar();
+        }
+
+        function resetar() {
+            clearInterval(countdown);
+            document.getElementById('timer-screen').classList.add('hidden');
+            document.getElementById('setup-screen').classList.remove('hidden');
+            document.getElementById('timer').innerText = "00";
+            document.getElementById('motivo').value = "";
+            tempoSelecionado = 0;
+            document.querySelectorAll('.btn-nivel').forEach(b => b.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>
