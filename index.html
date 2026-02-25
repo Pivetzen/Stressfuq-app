@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App do Estresse</title>
+    <title>App do Estresse - Edição com Áudio</title>
     <style>
         :root {
-            --bg-color: #1a1a1a;
-            --card-bg: #2d2d2d;
-            --text-color: #ffffff;
-            --accent-color: #ff4757;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #ff3e3e;
+            --success: #00ff88;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
@@ -21,121 +22,154 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
 
         .container {
             background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 400px;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            width: 90%;
+            max-width: 450px;
             text-align: center;
+            border: 1px solid #333;
         }
 
-        h1 { margin-bottom: 1.5rem; color: var(--accent-color); }
+        h1 { margin-bottom: 1rem; color: var(--accent-color); font-size: 1.8rem; }
+        p { color: #bbb; margin-bottom: 1.5rem; }
 
         textarea {
             width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #444;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #2a2a2a;
             color: white;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             resize: none;
             box-sizing: border-box;
+            font-size: 1rem;
         }
 
         .termometro {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 1.5rem;
         }
 
         .btn-nivel {
-            padding: 10px 5px;
+            padding: 15px 5px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            flex: 1;
-            margin: 0 5px;
-            color: #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            color: #111;
+            font-size: 0.8rem;
         }
 
-        .baixo { background-color: #2ecc71; }
-        .medio { background-color: #f1c40f; }
+        .baixo { background-color: #4cd137; }
+        .medio { background-color: #fbc531; }
         .alto { background-color: #e67e22; }
-        .aaaa { background-color: #e74c3c; animation: pulse 1s infinite; }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .aaaa { 
+            background-color: #c23616; 
+            color: white;
+            grid-column: span 2;
+            animation: shake 0.5s infinite;
         }
 
-        .btn-nivel:hover { opacity: 0.8; transform: translateY(-2px); }
-        .active { outline: 3px solid white; transform: translateY(-2px); }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10px { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            100% { transform: translate(1px, 1px) rotate(0deg); }
+        }
+
+        .active { 
+            box-shadow: 0 0 15px white;
+            transform: scale(1.05);
+            outline: 2px solid white;
+        }
 
         #display-mantra {
-            font-size: 1.5rem;
-            font-weight: bold;
-            min-height: 80px;
+            font-size: 2rem;
+            font-weight: 900;
+            min-height: 120px;
             margin: 20px 0;
-            color: #fffa65;
+            color: #fff200;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-transform: uppercase;
+            line-height: 1.2;
         }
 
         #timer {
-            font-size: 3rem;
+            font-size: 4rem;
             margin-bottom: 1rem;
-            font-family: monospace;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-color);
         }
 
         .hidden { display: none; }
 
-        #btn-cancelar {
-            background: none;
-            border: 1px solid #666;
-            color: #aaa;
+        #start-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 10px;
+            border: none;
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
             cursor: pointer;
-            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(255, 62, 62, 0.4);
+        }
+
+        #btn-cancelar {
+            background: transparent;
+            border: 1px solid #555;
+            color: #888;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
     <div class="container" id="setup-screen">
-        <h1>App do Estresse 🤬</h1>
-        <p>O que aconteceu?</p>
-        <textarea id="motivo" rows="3" placeholder="Ex: O chefe me cobrou no domingo..."></textarea>
+        <h1>DESABAFO EXPRESS 🤬</h1>
+        <p>Escreva o que te irritou:</p>
+        <textarea id="motivo" rows="3" placeholder="Aquele e-mail às 18h..."></textarea>
         
-        <p>Qual o nível da raiva?</p>
+        <p>Nível de Ódio:</p>
         <div class="termometro">
-            <button class="btn-nivel baixo" onclick="setNivel('baixo', 10, this)">Baixo</button>
-            <button class="btn-nivel medio" onclick="setNivel('medio', 20, this)">Médio</button>
-            <button class="btn-nivel alto" onclick="setNivel('alto', 30, this)">Alto</button>
-            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">AAAHHHH</button>
+            <button class="btn-nivel baixo" onclick="setNivel('baixo', 10, this)">Baixo (10s)</button>
+            <button class="btn-nivel medio" onclick="setNivel('medio', 20, this)">Médio (20s)</button>
+            <button class="btn-nivel alto" onclick="setNivel('alto', 30, this)">Alto (30s)</button>
+            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">AAAHHHH (60s)</button>
         </div>
 
-        <button id="start-btn" style="width: 100%; padding: 15px; border-radius: 8px; border: none; background: var(--accent-color); color: white; font-weight: bold; cursor: pointer;" onclick="iniciarSessao()">SOLTAR O VERBO</button>
+        <button id="start-btn" onclick="iniciarSessao()">COMEÇAR TERAPIA</button>
     </div>
 
     <div class="container hidden" id="timer-screen">
-        <h2 id="status-title">REPITAM COMIGO:</h2>
+        <h2 style="color: #888;">NÃO PARE DE REPETIR:</h2>
         <div id="display-mantra"></div>
         <div id="timer">00</div>
-        <button id="btn-cancelar" onclick="resetar()">Desisti, me acalmei</button>
+        <button id="btn-cancelar" onclick="resetar()">Me acalmei (ou alguém chegou)</button>
     </div>
 
     <script>
         let tempoSelecionado = 0;
         let countdown;
-        const frases = ["VÁ PRA PUTA QUE PARIU!", "VÁ TOMAR NO CU!"];
+        const frases = ["Vá pra puta que pariu!", "Vá tomar no cu!"];
+        const sintetizador = window.speechSynthesis;
 
         function setNivel(nome, tempo, element) {
             tempoSelecionado = tempo;
@@ -143,9 +177,19 @@
             element.classList.add('active');
         }
 
+        function falar(texto) {
+            // Cancela falas anteriores para não encavalar
+            sintetizador.cancel();
+            const fala = new SpeechSynthesisUtterance(texto);
+            fala.lang = 'pt-BR';
+            fala.rate = 1.2; // Velocidade um pouco mais rápida para parecer irritado
+            fala.pitch = 1;
+            sintetizador.speak(fala);
+        }
+
         function iniciarSessao() {
             if (tempoSelecionado === 0) {
-                alert("Selecione um nível no termômetro primeiro!");
+                alert("Selecione o quanto você está puto primeiro!");
                 return;
             }
 
@@ -156,32 +200,34 @@
             const displayTimer = document.getElementById('timer');
             const displayMantra = document.getElementById('display-mantra');
             
-            // Sorteia a frase inicial
-            displayMantra.innerText = frases[Math.floor(Math.random() * frases.length)];
+            // Primeira frase e áudio
+            const fraseInicial = frases[Math.floor(Math.random() * frases.length)];
+            displayMantra.innerText = fraseInicial;
+            falar(fraseInicial);
 
             countdown = setInterval(() => {
                 tempoRestante--;
                 displayTimer.innerText = tempoRestante < 10 ? `0${tempoRestante}` : tempoRestante;
 
-                // Troca a frase a cada 5 segundos para manter o ritmo
-                if (tempoRestante % 5 === 0) {
-                    displayMantra.innerText = frases[Math.floor(Math.random() * frases.length)];
+                // A cada 3 segundos, ele troca a frase e fala em áudio
+                if (tempoRestante > 0 && tempoRestante % 3 === 0) {
+                    const novaFrase = frases[Math.floor(Math.random() * frases.length)];
+                    displayMantra.innerText = novaFrase;
+                    falar(novaFrase);
                 }
 
                 if (tempoRestante <= 0) {
                     clearInterval(countdown);
-                    finalizar();
+                    falar("Pronto. Agora respira fundo e volta a trabalhar.");
+                    setTimeout(() => alert("Sessão finalizada. Aliviado?"), 500);
+                    resetar();
                 }
             }, 1000);
         }
 
-        function finalizar() {
-            alert("Sessão encerrada. Esperamos que o fígado esteja mais leve!");
-            resetar();
-        }
-
         function resetar() {
             clearInterval(countdown);
+            sintetizador.cancel();
             document.getElementById('timer-screen').classList.add('hidden');
             document.getElementById('setup-screen').classList.remove('hidden');
             document.getElementById('timer').innerText = "00";
