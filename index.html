@@ -54,8 +54,8 @@
 
         .termometro {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 7px;
             margin-bottom: 1.5rem;
         }
 
@@ -152,7 +152,7 @@
             <button class="btn-nivel baixo" onclick="setNivel('baixo', 10, this)">Baixo (10s)</button>
             <button class="btn-nivel medio" onclick="setNivel('medio', 20, this)">Médio (20s)</button>
             <button class="btn-nivel alto" onclick="setNivel('alto', 30, this)">Alto (30s)</button>
-            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">AAAHHHH (60s)</button>
+            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">AAAHHHH (1min)</button>
         </div>
 
         <button id="start-btn" onclick="iniciarSessao()">COMEÇAR TERAPIA</button>
@@ -168,7 +168,7 @@
     <script>
         let tempoSelecionado = 0;
         let countdown;
-        const frases = ["Vá pra puta que pariu!", "Vá tomar no cu!"];
+        const frases = ["Vá pra puta que pariu!", "Vá tomar no cu!", "Vá se fuder!", "Vá se lascar!"];
         const sintetizador = window.speechSynthesis;
 
         function setNivel(nome, tempo, element) {
