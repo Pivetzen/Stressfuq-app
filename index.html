@@ -138,6 +138,42 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        /* Estilo dos Botões de Pagamento InfinitePay */
+        .pagamento-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .pagamento-footer p {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .container-pagamento {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-pay {
+            display: inline-block;
+            background-color: #00FF5F; /* Verde InfinitePay */
+            color: #000;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: 0.2s;
+            min-width: 70px;
+        }
+
+        .btn-pay:hover {
+            filter: brightness(1.2);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -156,6 +192,14 @@
         </div>
 
         <button id="start-btn" onclick="iniciarSessao()">COMEÇAR TERAPIA</button>
+        <div class="pagamento-footer">
+            <p>Curtiu? Pague um café para o desenvolvedor:</p>
+            <div class="container-pagamento">
+                <a href="https://loja.infinitepay.io/matheusmaia_32/vup9848-doacao---desabafo-express-10" class="btn-pay" target="_blank">R$ 10</a>
+                <a href="https://loja.infinitepay.io/matheusmaia_32/duy4908-doacao---desabafo-express-50" class="btn-pay" target="_blank">R$ 50</a>
+                <a href="https://loja.infinitepay.io/matheusmaia_32/wik8868-doacao---desabafo-express-100" class="btn-pay" target="_blank">R$ 100</a>
+            </div>
+        </div>
     </div>
 
     <div class="container hidden" id="timer-screen">
