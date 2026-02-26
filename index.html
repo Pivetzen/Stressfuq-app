@@ -20,46 +20,47 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
 
         .container {
             background-color: var(--card-bg);
-            padding: 1.5rem; /* Reduzido de 2.5rem */
+            padding: 2.5rem;
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-            width: 85%; /* Reduzido de 90% */
-            max-width: 400px; /* Reduzido de 450px */
+            width: 90%;
+            max-width: 450px;
             text-align: center;
             border: 1px solid #333;
         }
 
-        h1 { margin-bottom: 0.8rem; color: var(--accent-color); font-size: 1.5rem; } /* Reduzido de 1.8rem */
-        p { color: #bbb; margin-bottom: 1rem; font-size: 0.9rem; } /* Adicionado font-size menor */
+        h1 { margin-bottom: 1rem; color: var(--accent-color); font-size: 1.8rem; }
+        p { color: #bbb; margin-bottom: 1.5rem; }
 
         textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border-radius: 10px;
             border: 1px solid #444;
             background: #2a2a2a;
             color: white;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             resize: none;
             box-sizing: border-box;
-            font-size: 0.9rem; /* Reduzido de 1rem */
+            font-size: 1rem;
         }
 
         .termometro {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 1rem;
+            gap: 7px;
+            margin-bottom: 1.5rem;
         }
 
         .btn-nivel {
-            padding: 12px 2px; /* Reduzido de 15px */
+            padding: 15px 5px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -67,7 +68,7 @@
             text-transform: uppercase;
             transition: all 0.2s ease;
             color: #111;
-            font-size: 0.7rem; /* Reduzido de 0.8rem */
+            font-size: 0.8rem;
         }
 
         .baixo { background-color: #4cd137; }
@@ -88,16 +89,16 @@
         }
 
         .active { 
-            box-shadow: 0 0 10px white;
-            transform: scale(1.02);
+            box-shadow: 0 0 15px white;
+            transform: scale(1.05);
             outline: 2px solid white;
         }
 
         #display-mantra {
-            font-size: 1.6rem; /* Reduzido de 2rem */
+            font-size: 2rem;
             font-weight: 900;
-            min-height: 100px;
-            margin: 15px 0;
+            min-height: 120px;
+            margin: 20px 0;
             color: #fff200;
             display: flex;
             align-items: center;
@@ -107,8 +108,8 @@
         }
 
         #timer {
-            font-size: 3.5rem; /* Reduzido de 4rem */
-            margin-bottom: 0.8rem;
+            font-size: 4rem;
+            margin-bottom: 1rem;
             font-family: 'Courier New', Courier, monospace;
             color: var(--accent-color);
         }
@@ -117,13 +118,13 @@
 
         #start-btn {
             width: 100%;
-            padding: 15px; /* Reduzido de 18px */
+            padding: 18px;
             border-radius: 10px;
             border: none;
             background: var(--accent-color);
             color: white;
             font-weight: bold;
-            font-size: 1.1rem; /* Reduzido de 1.2rem */
+            font-size: 1.2rem;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 62, 62, 0.4);
         }
@@ -132,47 +133,46 @@
             background: transparent;
             border: 1px solid #555;
             color: #888;
-            padding: 6px 12px;
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 15px;
-            font-size: 0.8rem;
+            margin-top: 20px;
         }
-
-        /* Pagamento */
+        /* Estilo dos Botões de Pagamento InfinitePay */
         .pagamento-footer {
-            margin-top: 20px; /* Reduzido de 30px */
-            padding-top: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
             border-top: 1px solid #333;
         }
         
         .pagamento-footer p {
-            font-size: 0.75rem; /* Reduzido de 0.8rem */
-            margin-bottom: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
         }
 
         .container-pagamento {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .btn-pay {
             display: inline-block;
-            background-color: #00FF5F;
+            background-color: #00FF5F; /* Verde InfinitePay */
             color: #000;
-            padding: 6px 12px; /* Reduzido */
-            font-size: 0.75rem; /* Reduzido de 0.85rem */
+            padding: 8px 15px;
+            font-size: 0.85rem;
             font-weight: bold;
             text-decoration: none;
             border-radius: 6px;
             transition: 0.2s;
-            min-width: 60px;
+            min-width: 70px;
         }
 
         .btn-pay:hover {
             filter: brightness(1.2);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -181,20 +181,19 @@
     <div class="container" id="setup-screen">
         <h1>DESABAFO EXPRESS 🤬</h1>
         <p>Escreva o que te irritou:</p>
-        <textarea id="motivo" rows="2" placeholder="Aquele e-mail às 18h..."></textarea>
+        <textarea id="motivo" rows="3" placeholder="Aquele e-mail às 18h..."></textarea>
         
         <p>Nível de Ódio:</p>
         <div class="termometro">
             <button class="btn-nivel baixo" onclick="setNivel('baixo', 10, this)">Baixo (10s)</button>
             <button class="btn-nivel medio" onclick="setNivel('medio', 20, this)">Médio (20s)</button>
             <button class="btn-nivel alto" onclick="setNivel('alto', 30, this)">Alto (30s)</button>
-            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">ODIO TOTAL</button>
+            <button class="btn-nivel aaaa" onclick="setNivel('AAAHHHH', 60, this)">AAAHHHH (1min)</button>
         </div>
 
         <button id="start-btn" onclick="iniciarSessao()">COMEÇAR TERAPIA</button>
-        
         <div class="pagamento-footer">
-            <p>Pague um café para o dev:</p>
+            <p>Curtiu? Pague um café para o desenvolvedor:</p>
             <div class="container-pagamento">
                 <a href="https://loja.infinitepay.io/matheusmaia_32/vup9848-doacao---desabafo-express-10" class="btn-pay" target="_blank">R$ 10</a>
                 <a href="https://loja.infinitepay.io/matheusmaia_32/duy4908-doacao---desabafo-express-50" class="btn-pay" target="_blank">R$ 50</a>
@@ -204,10 +203,10 @@
     </div>
 
     <div class="container hidden" id="timer-screen">
-        <h2 style="color: #888; font-size: 1rem;">NÃO PARE DE REPETIR:</h2>
+        <h2 style="color: #888;">NÃO PARE DE REPETIR:</h2>
         <div id="display-mantra"></div>
         <div id="timer">00</div>
-        <button id="btn-cancelar" onclick="resetar()">Me acalmei</button>
+        <button id="btn-cancelar" onclick="resetar()">Me acalmei (ou alguém chegou)</button>
     </div>
 
     <script>
@@ -223,17 +222,18 @@
         }
 
         function falar(texto) {
+            // Cancela falas anteriores para não encavalar
             sintetizador.cancel();
             const fala = new SpeechSynthesisUtterance(texto);
             fala.lang = 'pt-BR';
-            fala.rate = 1.3;
+            fala.rate = 1.2; // Velocidade um pouco mais rápida para parecer irritado
             fala.pitch = 1;
             sintetizador.speak(fala);
         }
 
         function iniciarSessao() {
             if (tempoSelecionado === 0) {
-                alert("Selecione o quanto você está puto!");
+                alert("Selecione o quanto você está puto primeiro!");
                 return;
             }
 
@@ -244,6 +244,7 @@
             const displayTimer = document.getElementById('timer');
             const displayMantra = document.getElementById('display-mantra');
             
+            // Primeira frase e áudio
             const fraseInicial = frases[Math.floor(Math.random() * frases.length)];
             displayMantra.innerText = fraseInicial;
             falar(fraseInicial);
@@ -252,6 +253,7 @@
                 tempoRestante--;
                 displayTimer.innerText = tempoRestante < 10 ? `0${tempoRestante}` : tempoRestante;
 
+                // A cada 3 segundos, ele troca a frase e fala em áudio
                 if (tempoRestante > 0 && tempoRestante % 3 === 0) {
                     const novaFrase = frases[Math.floor(Math.random() * frases.length)];
                     displayMantra.innerText = novaFrase;
@@ -260,8 +262,8 @@
 
                 if (tempoRestante <= 0) {
                     clearInterval(countdown);
-                    falar("Pronto. Agora respira fundo.");
-                    setTimeout(() => alert("Sessão finalizada."), 500);
+                    falar("Pronto. Agora respira fundo e volta a trabalhar.");
+                    setTimeout(() => alert("Sessão finalizada. Aliviado?"), 500);
                     resetar();
                 }
             }, 1000);
